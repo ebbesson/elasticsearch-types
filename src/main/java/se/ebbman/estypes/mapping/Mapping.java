@@ -31,9 +31,9 @@ public class Mapping {
     private Map<String, ESTypedClass> fields;
     private static final Logger log = LoggerFactory.getLogger(Mapping.class);;
 
-    private Mapping() {
+    private Mapping(String packageScope) {
         try {
-            this.fields = scanForMappings();
+            this.fields = scanForMappings(packageScope);
         } catch (IOException ex) {
             log.error(ex.getMessage());
         }
@@ -42,8 +42,8 @@ public class Mapping {
         }
     }
 
-    public static String getMapping(){
-        Mapping mapping = new Mapping();
+    public static String getMapping(String packageScope){
+        Mapping mapping = new Mapping(packageScope);
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.writeValueAsString(mapping);
@@ -56,18 +56,14 @@ public class Mapping {
 
 
 
-    private Map<String, ESTypedClass> scanForMappings() throws IOException {
+    private Map<String, ESTypedClass> scanForMappings(String packageScope) throws IOException {
         final ClassLoader loader = Mapping.class.getClassLoader();
 
         Map<String, ESTypedClass> fieldMappings = new HashMap<>();
         ClassPath classPath = ClassPath.from(loader);
-        Set<Class<?>> esTypeAnnotatedClasses = classPath.getTopLevelClasses("se.ebbman.wattsup.api.dbo")
-                .parallelStream()
-                .filter((ClassInfo clazzInfo) -> {
-                    Class<?> clazz = clazzInfo.load();
-                    boolean isEsType = clazz.isAnnotationPresent(ESType.class);
-                    return isEsType;
-                        })
+        Set<Class<?>> esTypeAnnotatedClasses = classPath.getTopLevelClassesRecursive(packageScope)
+                .stream()
+                .filter((ClassInfo clazzInfo) -> clazzInfo.load().isAnnotationPresent(ESType.class) )
                 .map(ClassInfo::load)
                 .collect(Collectors.toSet());
 
