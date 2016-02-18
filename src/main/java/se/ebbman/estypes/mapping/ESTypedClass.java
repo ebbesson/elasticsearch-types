@@ -1,4 +1,3 @@
-
 package se.ebbman.estypes.mapping;
 
 import com.google.common.collect.ImmutableMap;
@@ -13,23 +12,20 @@ import java.util.Map;
 public class ESTypedClass {
 
     private static final String PROPERTIES_KEY = "properties";
-    private final Map<String,FieldProperty> properties;
+    private final Map<String, FieldProperty> properties;
 
     public ESTypedClass() {
         this.properties = new HashMap<>();
     }
 
-
-    public ImmutableMap<String, FieldProperty> getProperties(){
-        return ImmutableMap.copyOf(properties);
+    public ImmutableMap<String, ESTypedClass> getProperties() {
+        Map<String, ESTypedClass> returnProperties = new HashMap<>();
+        returnProperties.put(PROPERTIES_KEY, this);
+        return ImmutableMap.copyOf(returnProperties);
     }
 
-    public void addFieldProperty(String field, FieldProperty fieldProps){
+    public void addFieldProperty(String field, FieldProperty fieldProps) {
         properties.put(field, fieldProps);
     }
-
-
-
-
 
 }
