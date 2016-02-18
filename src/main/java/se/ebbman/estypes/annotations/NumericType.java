@@ -39,6 +39,7 @@ public @interface NumericType {
      * @return
      */
     public String null_value() default "";
+
     /**
      * Field-level index time boosting. Accepts a floating point number, defaults to 1.0.
      *

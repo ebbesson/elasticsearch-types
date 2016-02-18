@@ -32,7 +32,7 @@ public @interface DateType {
      *
      * @return
      */
-    public String format() default "strict_date_optional_time||epoch_millis";
+    public String format() default "";
 
     /**
      * Accepts a date value in one of the configured format's as the field which is substituted for any explicit null values. Defaults to

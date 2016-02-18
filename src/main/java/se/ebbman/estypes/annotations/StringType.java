@@ -39,7 +39,7 @@ public @interface StringType {
      *
      * @return
      */
-    public String analyzer() default "standard";
+    public String analyzer() default "";
 
     /**
      * Field-level index time boosting. Accepts a floating point number, defaults to 1.0.
@@ -66,7 +66,7 @@ public @interface StringType {
      *
      * @return
      */
-    public String fielddata() default "paged_bytes";
+    public String fielddata() default "";
 
     /**
      * Multi-fields allow the same string value to be indexed in multiple ways for different purposes, such as one field for search and a
@@ -90,7 +90,7 @@ public @interface StringType {
      *
      * @return
      */
-    public String index_options() default "analyzed";
+    public String index_options() default "";
 
     /**
      * Whether field-length should be taken into account when scoring queries. Defaults depend on the index setting:
@@ -119,28 +119,28 @@ public @interface StringType {
      *
      * @return
      */
-    public String search_analyzer() default "standard";
+    public String search_analyzer() default "";
 
     /**
      * The analyzer that should be used at search time when a phrase is encountered. Defaults to the search_analyzer setting.
      *
      * @return
      */
-    public String search_quote_analyzer() default "standard";
+    public String search_quote_analyzer() default "";
 
     /**
      * Which scoring algorithm or similarity should be used. Defaults to default, which uses TF/IDF.
      *
      * @return
      */
-    public String similarity() default "default";
+    public String similarity() default "";
 
     /**
      * Whether term vectors should be stored for an analyzed field. Defaults to no.
      *
      * @return
      */
-    public String term_vector() default "no";
+    public String term_vector() default "";
 
     /**
      * Controls the number of extra terms that are indexed to make range queries faster. Defaults to 16.

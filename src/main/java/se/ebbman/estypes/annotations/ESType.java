@@ -7,13 +7,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Target;
 
 /**
- * 
- * @author Magnus Ebbesson <magnus.ebbesson@findwise.com>
+ *
+ * @author Magnus Ebbesson magnus@ebbman.se
  * Feb 16, 2016 - 9:44:43 AM
  */
 @Documented
 @Retention(RUNTIME)
 @Target(TYPE)
 public @interface ESType {
+
     public String type();
 }
