@@ -12,7 +12,7 @@ import java.util.Map;
 public class ESTypedClass {
 
     private static final String PROPERTIES_KEY = "properties";
-    private final Map<String, FieldProperty> properties;
+    private final Map<String, FieldProperties> properties;
 
     public ESTypedClass() {
         this.properties = new HashMap<>();
@@ -24,7 +24,7 @@ public class ESTypedClass {
         return ImmutableMap.copyOf(returnProperties);
     }
 
-    public void addFieldProperty(String field, FieldProperty fieldProps) {
+    public void addFieldProperty(String field, FieldProperties fieldProps) {
         properties.put(field, fieldProps);
     }
 

@@ -7,20 +7,14 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import se.ebbman.estypes.annotations.DateType;
 import se.ebbman.estypes.annotations.ESType;
-import se.ebbman.estypes.annotations.NumericType;
-import se.ebbman.estypes.annotations.StringType;
 
 /**
  *
@@ -36,8 +30,7 @@ public class Mapping {
         this.fields = scanForESTypedClasses(packageScope);
     }
 
-    @VisibleForTesting
-    Mapping() {
+    private Mapping() {
         this.fields = null;
     }
 
@@ -89,41 +82,13 @@ public class Mapping {
     }
 
     @VisibleForTesting
-    void populatePropertiesFromField(FieldProperty fieldProperty, Method[] declaredFieldMethods, Annotation fieldTypeAnnotation) {
-        for (Method method : declaredFieldMethods) {
-            if (method.getParameterCount() == 0) {
-                try {
-                    fieldProperty.addFieldProperty(method.getName(), method.invoke(fieldTypeAnnotation));
-                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                    log.error("Exception caught, unable to add properties data for " + method.getName() + " reason: ", ex);
-                }
-            }
-        }
-    }
-
-    @VisibleForTesting
     ESTypedClass parseAnnotatedClass(Class<?> clazz) {
-
         ESTypedClass esTyped = new ESTypedClass();
-
         for (Field field : clazz.getDeclaredFields()) {
-            FieldProperty fieldProperty = new FieldProperty();
-            if (field.isAnnotationPresent(StringType.class)) {
-                StringType stringField = field.getAnnotation(StringType.class);
-                populatePropertiesFromField(fieldProperty, stringField.getClass().getDeclaredMethods(), stringField);
-
-            } else if (field.isAnnotationPresent(NumericType.class)) {
-                NumericType numericField = field.getAnnotation(NumericType.class);
-                populatePropertiesFromField(fieldProperty, numericField.getClass().getDeclaredMethods(), numericField);
-            } else if (field.isAnnotationPresent(DateType.class)) {
-                DateType dateField = field.getAnnotation(DateType.class);
-                populatePropertiesFromField(fieldProperty, dateField.getClass().getDeclaredMethods(), dateField);
-            } else {
-                log.debug("Declared field does not carry any cool annotation");
-            }
+            FieldProperties fieldProperty = new FieldProperties();
+            fieldProperty.populatePropertiesFromField(field);
             esTyped.addFieldProperty(field.getName(), fieldProperty);
         }
-
         return esTyped;
     }
 
@@ -137,4 +102,8 @@ public class Mapping {
 
     }
 
+    @VisibleForTesting
+    static Mapping getInstance() {
+        return new Mapping();
+    }
 }
