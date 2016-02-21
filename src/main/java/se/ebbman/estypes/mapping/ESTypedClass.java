@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  *
- * @author Magnus Ebbesson <magnus.ebbesson@findwise.com>
+ * @author Magnus Ebbesson
  * Feb 16, 2016 - 3:26:49 PM
  */
 public class ESTypedClass {

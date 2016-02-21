@@ -19,7 +19,7 @@ import se.ebbman.estypes.annotations.StringType;
 
 /**
  *
- * @author Magnus Ebbesson <magnus.ebbesson@findwise.com>
+ * @author Magnus Ebbesson
  * Feb 17, 2016 - 5:36:27 PM
  */
 public class FieldProperties {

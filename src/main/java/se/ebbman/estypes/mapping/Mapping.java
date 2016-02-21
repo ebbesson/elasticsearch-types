@@ -4,7 +4,7 @@ import java.util.Map;
 
 /**
  *
- * @author Magnus Ebbesson <magnus.ebbesson@findwise.com>
+ * @author Magnus Ebbesson
  * Feb 21, 2016 - 9:58:21 AM
  */
 public class Mapping {

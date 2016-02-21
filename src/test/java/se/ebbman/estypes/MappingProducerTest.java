@@ -12,7 +12,7 @@ import se.ebbman.estypes.mapping.ESTypedClass;
 
 /**
  *
- * @author Magnus Ebbesson <magnus.ebbesson@findwise.com>
+ * @author Magnus Ebbesson
  */
 public class MappingProducerTest {
 

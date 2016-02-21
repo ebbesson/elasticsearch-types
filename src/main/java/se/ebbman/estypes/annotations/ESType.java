@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  *
- * @author Magnus Ebbesson magnus@ebbman.se
+ * @author Magnus Ebbesson
  * Feb 16, 2016 - 9:44:43 AM
  */
 @Documented

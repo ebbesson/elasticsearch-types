@@ -1,5 +1,3 @@
-/*
- */
 package se.ebbman.estypes.annotations;
 
 import java.lang.annotation.Documented;
@@ -10,7 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  *
- * @author Magnus Ebbesson <magnus.ebbesson@findwise.com>
+ * @author Magnus Ebbesson
  * Feb 12, 2016 - 7:50:08 PM
  */
 @Retention(RUNTIME)

@@ -21,7 +21,7 @@ import se.ebbman.estypes.mapping.Mapping;
 
 /**
  *
- * @author Magnus Ebbesson <magnus.ebbesson@findwise.com>
+ * @author Magnus Ebbesson
  * Feb 17, 2016 - 3:49:55 PM
  */
 public class MappingProducer {

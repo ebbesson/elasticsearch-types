@@ -7,7 +7,7 @@ import org.junit.Test;
 
 /**
  *
- * @author Magnus Ebbesson <magnus.ebbesson@findwise.com>
+ * @author Magnus Ebbesson
  */
 public class FieldPropertiesTest {
 
