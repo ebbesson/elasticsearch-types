@@ -18,7 +18,7 @@ public class MappingProducerTest {
 
     @Test
     public void testGetMapping() throws JSONException {
-        String mapping = MappingProducer.getMapping("se.ebbman.estypes.mapping");
+        String mapping = MappingProducer.getMapping("se.ebbman.estypes");
         String expected = "{\n"
                 + "	\"mappings\": {\n"
                 + "		\"test\": {\n"
@@ -45,7 +45,7 @@ public class MappingProducerTest {
 
         String packageScope = this.getClass().getPackage().getName();
 
-        Map<String, ESTypedClass> result = MappingProducer.scanForMappings(packageScope);
+        Map<String, ESTypedClass> result = MappingProducer.scanForESTypedClasses(packageScope);
         assertNotNull(result);
         assertFalse(result.isEmpty());
         assertTrue(result.containsKey("test"));

@@ -1,7 +1,6 @@
 package se.ebbman.estypes.mapping;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.google.common.annotations.VisibleForTesting;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -37,7 +36,6 @@ public class FieldProperties {
         return props;
     }
 
-    @VisibleForTesting
     public void populatePropertiesFromField(Field field) {
 
         if (field.isAnnotationPresent(StringType.class)) {
