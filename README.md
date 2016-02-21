@@ -24,8 +24,24 @@ package my.uber.elasticsearch.project
 public class ElasticSearchIndexer {
 
   //Returns a valid JSON-string 
-  String jsonMapping = MappingsProducer.getMapping("my.cool.elasticsearch.project");
-  // PUT to Elasticsearch instance to update Mapping.
+ 
+  Map<String, String> mapping = MappingProducer.getMapping("my.cool.elasticsearch");
+  mapping.keySet().stream()
+        .map(
+          (type) ->esClient
+                  .admin()
+                  .indices()
+                  .preparePutMapping(index)
+                  .setType(type)
+                  .setSource(mapping.get(type))
+                  .execute()
+                  .actionGet()
+          )
+        .forEach((mappingResponse) -> {
+              boolean acknowledged = mappingResponse.isAcknowledged();
+  });
+      
+  
 }
 
 ```
