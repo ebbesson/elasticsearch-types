@@ -16,5 +16,5 @@ import java.lang.annotation.Target;
 @Target(TYPE)
 public @interface ESType {
 
-    public String type();
+    public String name();
 }

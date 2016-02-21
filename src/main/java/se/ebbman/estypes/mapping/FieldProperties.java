@@ -1,7 +1,7 @@
 package se.ebbman.estypes.mapping;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableMap;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -24,26 +24,21 @@ import se.ebbman.estypes.annotations.StringType;
  */
 public class FieldProperties {
 
-    private static final Logger log = LoggerFactory.getLogger(FieldProperties.class);
+    private final Logger log = LoggerFactory.getLogger(FieldProperties.class);
     private final Map<String, Object> props;
-    private final Set<String> objectMethods;
 
     public FieldProperties() {
         this.props = new HashMap<>();
-        Object o = new Object();
-        objectMethods = Arrays.asList(o.getClass().getMethods())
-                .stream()
-                .map(Method::getName)
-                .collect(Collectors.toSet());
-        objectMethods.add("annotationType");
+
     }
 
-    public ImmutableMap<String, Object> getProperties() {
-        return ImmutableMap.copyOf(props);
+    @JsonAnyGetter
+    Map<String, Object> getProperties() {
+        return props;
     }
 
     @VisibleForTesting
-    void populatePropertiesFromField(Field field) {
+    public void populatePropertiesFromField(Field field) {
 
         if (field.isAnnotationPresent(StringType.class)) {
             StringType stringField = field.getAnnotation(StringType.class);
@@ -63,6 +58,13 @@ public class FieldProperties {
     }
 
     private void parseAnnotationMethodsForProperties(Method[] declaredMethods, Annotation typeAnnotationInstance, Class<?> instanceClazz) {
+
+        Object o = new Object();
+        Set<String> objectMethods = Arrays.asList(o.getClass().getMethods())
+                .stream()
+                .map(Method::getName)
+                .collect(Collectors.toSet());
+        objectMethods.add("annotationType");
 
         for (Method method : declaredMethods) {
             if (method.getParameterCount() == 0 && !objectMethods.contains(method.getName())) {

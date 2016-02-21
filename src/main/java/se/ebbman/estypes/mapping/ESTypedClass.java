@@ -1,6 +1,5 @@
 package se.ebbman.estypes.mapping;
 
-import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,17 +10,14 @@ import java.util.Map;
  */
 public class ESTypedClass {
 
-    private static final String PROPERTIES_KEY = "properties";
     private final Map<String, FieldProperties> properties;
 
     public ESTypedClass() {
         this.properties = new HashMap<>();
     }
 
-    public ImmutableMap<String, ESTypedClass> getProperties() {
-        Map<String, ESTypedClass> returnProperties = new HashMap<>();
-        returnProperties.put(PROPERTIES_KEY, this);
-        return ImmutableMap.copyOf(returnProperties);
+    public Map<String, FieldProperties> getProperties() {
+        return properties;
     }
 
     public void addFieldProperty(String field, FieldProperties fieldProps) {
