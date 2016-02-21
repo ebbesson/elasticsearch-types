@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import se.ebbman.estypes.annotations.ESType;
 import se.ebbman.estypes.mapping.ESTypedClass;
 import se.ebbman.estypes.mapping.FieldProperties;
-import se.ebbman.estypes.mapping.Mapping;
 
 /**
  *
@@ -42,20 +41,22 @@ public class MappingProducer {
      * @param packageScope Top-level package where the classes
      * @return JSON-formatted String representing Elasticsearch field mappings of all your {@link ESType} annotated classes
      */
-    public static String getMapping(String packageScope) {
+    public static Map<String, String> getMapping(String packageScope) {
 
-        Mapping mapping = new Mapping(scanForESTypedClasses(packageScope));
+        Map<String, String> mapOfJsonRepresentationsForEachType = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.writeValueAsString(mapping);
-        } catch (JsonProcessingException ex) {
-            log.error("JsonProcessingException cought, returning empty mapping", ex);
+        for (Map.Entry<String, ESTypedClass> entry : scanForESTypedClasses(packageScope).entrySet()) {
+            try {
+                mapOfJsonRepresentationsForEachType.put(entry.getKey(), mapper.writeValueAsString(entry.getValue()));
+            } catch (JsonProcessingException ex) {
+                log.error("JsonProcessingException cought, returning empty mapping", ex);
+            }
         }
-        return "{\"mapping\":{}}";
+
+        return mapOfJsonRepresentationsForEachType;
     }
 
-    
-    static Map<String, ESTypedClass> scanForESTypedClasses(String packageScope)  {
+    static Map<String, ESTypedClass> scanForESTypedClasses(String packageScope) {
 
         Map<String, ESTypedClass> fieldMappings = new HashMap<>();
 
@@ -78,11 +79,13 @@ public class MappingProducer {
         for (Field field : clazz.getDeclaredFields()) {
             FieldProperties fieldProperty = new FieldProperties();
             fieldProperty.populatePropertiesFromField(field);
-            esTyped.addFieldProperty(field.getName(), fieldProperty);
+            if (fieldProperty.hasProperties()) {
+                esTyped.addFieldProperty(field.getName(), fieldProperty);
+            }
+
         }
         return esTyped;
     }
-
 
     private static Set<Class<?>> getClasses(String packageName) {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();

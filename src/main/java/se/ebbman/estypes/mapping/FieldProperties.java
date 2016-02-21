@@ -31,6 +31,10 @@ public class FieldProperties {
 
     }
 
+    public boolean hasProperties(){
+        return !props.isEmpty();
+    }
+
     @JsonAnyGetter
     Map<String, Object> getProperties() {
         return props;

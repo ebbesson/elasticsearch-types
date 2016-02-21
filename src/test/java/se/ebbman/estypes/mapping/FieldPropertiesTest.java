@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
+import se.ebbman.estypes.mapping.dummy.ESTypeTest;
+import se.ebbman.estypes.mapping.dummy.ESTypeTest2;
 
 /**
  *
@@ -47,6 +49,20 @@ public class FieldPropertiesTest {
         assertTrue(instance.getProperties().size() == 1);
         assertTrue(instance.getProperties().containsKey("type"));
         assertEquals(instance.getProperties().get("type"), "date");
+    }
+
+
+    @Test
+    public void testPopulatePropertiesFromStringFieldSerializable() throws NoSuchFieldException {
+        ESTypeTest2 esTypedClass = new ESTypeTest2();
+        Field field = esTypedClass.getClass().getDeclaredField("stringTest");
+        FieldProperties instance = new FieldProperties();
+        instance.populatePropertiesFromField(field);
+        assertTrue(instance.getProperties().size() == 2);
+        assertTrue(instance.getProperties().containsKey("analyzer"));
+        assertEquals(instance.getProperties().get("analyzer"), "special");
+        assertTrue(instance.getProperties().containsKey("type"));
+        assertEquals(instance.getProperties().get("type"), "string");
     }
 
 }

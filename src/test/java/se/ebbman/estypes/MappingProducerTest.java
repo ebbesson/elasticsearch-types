@@ -7,8 +7,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
-import se.ebbman.estypes.mapping.ESTypeTest;
 import se.ebbman.estypes.mapping.ESTypedClass;
+import se.ebbman.estypes.mapping.dummy.ESTypeTest;
 
 /**
  *
@@ -18,26 +18,25 @@ public class MappingProducerTest {
 
     @Test
     public void testGetMapping() throws JSONException {
-        String mapping = MappingProducer.getMapping("se.ebbman.estypes");
+        Map<String, String> mapping = MappingProducer.getMapping("se.ebbman.estypes");
+        assertFalse(mapping.isEmpty());
+        assertTrue(mapping.size() == 2);
         String expected = "{\n"
-                + "	\"mappings\": {\n"
-                + "		\"test\": {\n"
-                + "			\"properties\": {\n"
-                + "				\"longTest\": {\n"
-                + "					\"type\": \"long\"\n"
-                + "				},\n"
-                + "				\"dateTest\": {\n"
-                + "					\"type\": \"date\"\n"
-                + "				},\n"
-                + "				\"stringTest\": {\n"
-                + "					\"analyzer\": \"special\",\n"
-                + "					\"type\": \"string\"\n"
-                + "				}\n"
-                + "			}\n"
+            + "			\"properties\": {\n"
+            + "				\"longTest\": {\n"
+            + "					\"type\": \"long\"\n"
+            + "				},\n"
+            + "				\"dateTest\": {\n"
+            + "					\"type\": \"date\"\n"
+            + "				},\n"
+            + "				\"stringTest\": {\n"
+            + "					\"analyzer\": \"special\",\n"
+            + "					\"type\": \"string\"\n"
+            + "				}\n"
                 + "		}\n"
-                + "	}\n"
                 + "}";
-        JSONAssert.assertEquals(expected, mapping, false);
+        JSONAssert.assertEquals(expected, mapping.get("test"), true);
+        JSONAssert.assertEquals(expected, mapping.get("test2"), true);
     }
 
     @Test
