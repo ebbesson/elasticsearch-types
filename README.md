@@ -4,7 +4,7 @@ Elasticsearch-types provides a simple way of generating valid [Elasticsearch Map
 
 ## Code Example
 
-```java```
+```java
 
 package my.cool.elasticsearch.project
 
@@ -28,7 +28,7 @@ public class ElasticSearchIndexer {
   // PUT to Elasticsearch instance to update Mapping.
 }
 
-``````
+```
 
 ## Motivation
 
