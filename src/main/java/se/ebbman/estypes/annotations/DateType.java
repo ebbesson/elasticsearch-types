@@ -23,6 +23,13 @@ public @interface DateType {
      *
      * @return
      */
+    public String type() default "date";
+
+    /**
+     * Should the field be searchable? Accepts not_analyzed (default) and no.
+     *
+     * @return
+     */
     public String index() default "";
 
     /**

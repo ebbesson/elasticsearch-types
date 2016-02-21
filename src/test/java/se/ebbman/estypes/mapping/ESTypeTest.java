@@ -24,6 +24,6 @@ public class ESTypeTest {
     private final long longTest = 123;
 
     @DateType()
-    private final Date testDate = Date.from(now());
+    private final Date dateTest = Date.from(now());
 
 }

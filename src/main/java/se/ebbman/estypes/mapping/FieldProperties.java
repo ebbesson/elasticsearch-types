@@ -47,27 +47,28 @@ public class FieldProperties {
 
         if (field.isAnnotationPresent(StringType.class)) {
             StringType stringField = field.getAnnotation(StringType.class);
-            parseAnnotationMethodsForProperties(stringField.getClass().getDeclaredMethods(), stringField);
-        }
-        else if (field.isAnnotationPresent(NumericType.class)) {
+            parseAnnotationMethodsForProperties(stringField.getClass().getDeclaredMethods(), stringField, StringType.class);
+
+        } else if (field.isAnnotationPresent(NumericType.class)) {
             NumericType numericField = field.getAnnotation(NumericType.class);
-            parseAnnotationMethodsForProperties(numericField.getClass().getDeclaredMethods(), numericField);
+            parseAnnotationMethodsForProperties(numericField.getClass().getDeclaredMethods(), numericField, NumericType.class);
+
         } else if (field.isAnnotationPresent(DateType.class)) {
             DateType dateField = field.getAnnotation(DateType.class);
-            parseAnnotationMethodsForProperties(dateField.getClass().getDeclaredMethods(), dateField);
+            parseAnnotationMethodsForProperties(dateField.getClass().getDeclaredMethods(), dateField, DateType.class);
         } else {
             log.debug("Declared field does not carry any cool annotation");
         }
 
     }
 
-    private void parseAnnotationMethodsForProperties(Method[] declaredMethods, Annotation typeAnnotationInstance) {
+    private void parseAnnotationMethodsForProperties(Method[] declaredMethods, Annotation typeAnnotationInstance, Class<?> instanceClazz) {
 
         for (Method method : declaredMethods) {
             if (method.getParameterCount() == 0 && !objectMethods.contains(method.getName())) {
                 try {
                     Object methodReturnValue = method.invoke(typeAnnotationInstance);
-                    if (!methodReturnValue.toString().isEmpty()) {
+                    if (method.getName().equalsIgnoreCase("type") || (!isDefaultReturnValue(method.getName(), methodReturnValue, instanceClazz))) {
                         props.put(method.getName(), methodReturnValue);
                     }
                 } catch (IllegalArgumentException ex) {
@@ -76,5 +77,16 @@ public class FieldProperties {
                 }
             }
         }
+
+    }
+
+    private boolean isDefaultReturnValue(String methodName, Object instanceMethodReturnValue, Class<?> instanceClazz) {
+        try {
+            Object defaultValue = instanceClazz.getMethod(methodName).getDefaultValue();
+            return instanceMethodReturnValue.equals(defaultValue);
+        } catch (NoSuchMethodException | SecurityException ex) {
+            return false;
+        }
+
     }
 }
