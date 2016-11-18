@@ -34,7 +34,7 @@ public class MappingProducer {
     }
 
     /**
-     * Scanns your runtime packages for classes annotated with {@link ESType} and produces an Elasticsearch compatiable MappingProducer of
+     * Scans your runtime packages for classes annotated with {@link ESType} and produces an Elasticsearch compatiable MappingProducer of
      * those
      * objects
      *
