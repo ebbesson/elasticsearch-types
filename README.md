@@ -64,7 +64,6 @@ cd elastic-types
 mvn install;
 ``````
 
-Deploy to Maven Central are on the way.
 
 ## API Reference
 
